@@ -1,2 +1,4 @@
 ipsetpy
+paho-mqtt
 python-iptables
+schedule
