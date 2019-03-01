@@ -32,9 +32,9 @@ setup(
 
     install_requires=['ipsetpy', 'paho-mqtt', 'python-iptables', 'pyptables', 'schedule'],
 
-    entry_points={  # Optional
+    entry_points={
         'console_scripts': [
-            'ipstatistics=ip_banstats:main',
+            'ipstatistics=ipban_stats:main',
         ],
     },
 )

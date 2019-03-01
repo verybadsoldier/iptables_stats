@@ -35,26 +35,6 @@ class JobFactory:
     def build_job(self, module_name, reading_fnc):
         return JobFactory.Job(self._sinks, module_name, reading_fnc)
 
-#
-# def job_pkg_count(name, chain, rule_regex):
-#     num_packages, num_bytes = iptables_stats.get_counts(chain, rule_regex)
-#     m.publish("home/minion/iptables/MYCHAIN/firehol_level2/num_packages", str(num_packages))
-#     m.publish("home/minion/iptables/MYCHAIN/firehol_level2/num_bytes", str(num_bytes))
-#
-#
-# def job():
-#     logging.info('Running job')
-#
-#     # iptables
-#     num_packages, num_bytes = iptables_stats.get_counts("MYCHAIN", 'firehol_level2')
-#     m.publish("home/minion/iptables/MYCHAIN/firehol_level2/num_packages", str(num_packages))
-#     m.publish("home/minion/iptables/MYCHAIN/firehol_level2/num_bytes", str(num_bytes))
-#
-#     # ipset
-#     ipset = IpSet()
-#     num_l1 = ipset.get_ip_count("myset")
-#     m.publish("home/minion/ipset/firehol_level1/count", str(num_l1))
-#
 
 def _get_interval(cfg):
     return 1 if 'interval' not in cfg else int(cfg['interval'])
