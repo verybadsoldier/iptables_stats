@@ -11,7 +11,7 @@ class MqttSink:
         self._mqtt = Mqtt(hostname, port)
         self._mqtt.connect()
 
-    def publish(self, module_name, reading_name, value):
-        topic = f"{self._topic_root}/{module_name}/{reading_name}"
+    def publish(self, obj_name, reading_name, value):
+        topic = f"{self._topic_root}/{obj_name}/{reading_name}"
         self._mqtt.publish(topic, value)
 

@@ -34,7 +34,7 @@ setup(
 
     entry_points={
         'console_scripts': [
-            'ipstatistics=ipban_stats:main',
+            'ipstatistics=ipban_stats.__main__:main',
         ],
     },
 )

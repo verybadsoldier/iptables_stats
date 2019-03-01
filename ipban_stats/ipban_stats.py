@@ -20,24 +20,31 @@ class JobFactory:
         self._sinks = sinks
 
     class Job:
-        def __init__(self, sinks, module_name, reading_fnc):
+        def __init__(self, sinks, obj_name, module_name, reading_fnc):
             self._sinks = sinks
+            self._obj_name = obj_name
             self._module_name = module_name
             self._reading_fnc = reading_fnc
 
         def __call__(self):
-            readings = self._reading_fnc()
+            try:
+                readings = self._reading_fnc()
 
-            for sink in self._sinks:
-                for reading_name, value in readings.items():
-                    sink.publish(self._module_name, reading_name, value)
+                for sink in self._sinks:
+                    for reading_name, value in readings.items():
+                        sink.publish(self._obj_name, reading_name, value)
+            except Exception as e:
+                logging.error(f'Error processing object "{self._obj_name}" in module "{self._module_name}": {e}')
 
-    def build_job(self, module_name, reading_fnc):
-        return JobFactory.Job(self._sinks, module_name, reading_fnc)
+    def build_job(self, obj_name, module_name, reading_fnc):
+        return JobFactory.Job(self._sinks, obj_name, module_name, reading_fnc)
+
+
+_def_interval = 5
 
 
 def _get_interval(cfg):
-    return 1 if 'interval' not in cfg else int(cfg['interval'])
+    return _def_interval if 'interval' not in cfg else int(cfg['interval'])
 
 
 def main():
@@ -49,6 +56,12 @@ def main():
     args = parser.parse_args()
 
     config = load_config(args.config_file)
+
+    if 'general' in config:
+        if 'interval' in config['general']:
+            global _def_interval
+            _def_interval = int(config['general']['interval'])
+            logging.info(f"Read generl config parameter 'interval={_def_interval}'")
 
     sinks = []
     if 'mqtt' in config:
@@ -64,22 +77,23 @@ def main():
     job_factory = JobFactory(sinks)
 
     if 'iptables_pkg_count' in config:
-        for k, v in config['iptables_pkg_count'].items():
-            fnc = functools.partial(iptables.get_rule_counters, v['chain'], v['rule_regex'])
-            job = job_factory.build_job('iptables_pkg_count', fnc)
-            schedule.every(_get_interval(v)).seconds.do(job)
+        for name, cfg in config['iptables_pkg_count'].items():
+            fnc = functools.partial(iptables.get_rule_counters, cfg['chain'], cfg['rule_regex'])
+            job = job_factory.build_job(name, 'iptables_pkg_count', fnc)
+            schedule.every(_get_interval(cfg)).seconds.do(job)
 
     if 'iptables_rule_count' in config:
-        for k, v in config['iptables_rule_count'].items():
-            fnc = functools.partial(iptables.get_num_rules, v['chain'])
-            job = job_factory.build_job('iptables_rule_count', fnc)
-            schedule.every(_get_interval(v)).seconds.do(job)
+        for name, cfg in config['iptables_rule_count'].items():
+            offset = 0 if 'offset' not in cfg else int(cfg['offset'])
+            fnc = functools.partial(iptables.get_num_rules, cfg['chain'], offset)
+            job = job_factory.build_job(name, 'iptables_rule_count', fnc)
+            schedule.every(_get_interval(cfg)).seconds.do(job)
 
     if 'ipset_count' in config:
-        for k, v in config['ipset_count'].items():
-            fnc = functools.partial(ipset.get_ip_count, v['setname'])
-            job = job_factory.build_job('ipset_count', fnc)
-            schedule.every(_get_interval(v)).seconds.do(job)
+        for name, cfg in config['ipset_count'].items():
+            fnc = functools.partial(ipset.get_ip_count, cfg['setname'])
+            job = job_factory.build_job(name, 'ipset_count', fnc)
+            schedule.every(_get_interval(cfg)).seconds.do(job)
 
     while True:
         schedule.run_pending()
