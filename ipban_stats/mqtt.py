@@ -1,12 +1,15 @@
+import logging
+
 import paho.mqtt.client as mqtt
+
+_logger = logging.getLogger()
 
 
 class Mqtt:
-    def __init__(self):
-        # Blocking call that processes network traffic, dispatches callbacks and
-        # handles reconnecting.
-        # Other loop*() functions are available that give a threaded interface and a
-        # manual interface.
+    def __init__(self, hostname, port=1883):
+        self._mqtthost = hostname
+        self._mqttport = port
+
         self.client = mqtt.Client()
         self.client.on_connect = self.on_connect
         self.client.on_message = self.on_message
@@ -25,8 +28,11 @@ class Mqtt:
         print(msg.topic + " " + str(msg.payload))
 
     def connect(self):
-        self.client.connect("iot.eclipse.org", 1883, 60)
+        _logger.info(f"Connecting to MQTT host '{self._mqtthost}:{self._mqttport}'")
+
+        self.client.connect(self._mqtthost, self._mqttport, 60)
         self.client.loop_start()
 
     def publish(self, topic, value):
+        _logger.debug("Publishing MQTT messaget host")
         self.client.publish(topic, value)

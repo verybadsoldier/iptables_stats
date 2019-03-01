@@ -1,4 +1,5 @@
 ipsetpy
 paho-mqtt
 python-iptables
+pyptables
 schedule
