@@ -15,7 +15,7 @@ with open(path.join(here, 'README.md'), encoding='utf-8') as f:
 setup(
     name='iptables_stats',
 
-    version='0.9.2',
+    version='0.9.4',
 
     description='Publish IP statistics periodically',
 

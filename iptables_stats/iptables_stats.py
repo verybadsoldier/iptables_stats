@@ -39,7 +39,7 @@ class JobFactory:
                         logging.info(f"Publishing reading '{reading_name}' with value '{value}'")
                         sink.publish(self._obj_name, reading_name, value)
             except Exception as e:
-                logging.exception(f'Error processing object "{self._obj_name}" in module "{self._module_name}": {e}')
+                logging.warn(f'Error processing object "{self._obj_name}" in module "{self._module_name}": {e}')
 
     def build_job(self, obj_name, module_name, reading_fnc, cfg, *fnc_args, **fnc_kwargs):
         if cfg is not None and 'interval' in cfg:
@@ -86,7 +86,7 @@ def main():
 
     job_factory = JobFactory(sinks, def_interval)
 
-    module_name = 'iptables_pkg_count'
+    module_name = 'iptables_pkt_count'
     if module_name in config:
         for obj_name, obj_cfg in config[module_name].items():
             job_factory.build_job(obj_name, module_name, iptables.get_rule_counters, obj_cfg, obj_cfg['chain'],

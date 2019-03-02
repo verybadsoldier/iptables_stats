@@ -33,7 +33,7 @@ def get_rule_counters(chain, regex):
     rules = list(chain.rules)
     counters = rules[rule_no].get_counters()
 
-    return dict(pkg_count=counters[0], byte_count=counters[1])
+    return dict(packet_count=counters[0], byte_count=counters[1])
 
 
 def get_rule_count(chain, offset=0):
