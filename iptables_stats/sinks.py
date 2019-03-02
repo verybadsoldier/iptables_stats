@@ -1,7 +1,7 @@
 from .mqtt import Mqtt
 import logging
 
-_logger = logging.getLogger()
+_logger = logging.getLogger(__name__)
 
 
 class MqttSink:

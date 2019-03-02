@@ -36,7 +36,7 @@ def get_rule_counters(chain, regex):
     return dict(pkg_count=counters[0], byte_count=counters[1])
 
 
-def get_num_rules(chain, offset=0):
+def get_rule_count(chain, offset=0):
     table = iptc.Table(iptc.Table.FILTER)
     chain = iptc.Chain(table, chain)
     return dict(rule_count=len(chain.rules) + offset)

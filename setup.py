@@ -1,4 +1,3 @@
-# Always prefer setuptools over distutils
 from setuptools import setup, find_packages
 from os import path
 # io.open is needed for projects that support Python 2.7
@@ -14,9 +13,9 @@ with open(path.join(here, 'README.md'), encoding='utf-8') as f:
     long_description = f.read()
 
 setup(
-    name='ipstatistics',
+    name='iptables_stats',
 
-    version='0.9.0',
+    version='0.9.2',
 
     description='Publish IP statistics periodically',
 
@@ -30,11 +29,11 @@ setup(
 
     python_requires='>=3.6',
 
-    install_requires=['ipsetpy', 'paho-mqtt', 'python-iptables', 'pyptables', 'schedule'],
+    install_requires=['ipsetpy', 'paho-mqtt', 'python-iptables', 'pyptables', 'schedule', 'pyyaml'],
 
     entry_points={
         'console_scripts': [
-            'ipstatistics=ipban_stats.__main__:main',
+            'iptables_stats=iptables_stats.__main__:main',
         ],
     },
 )
