@@ -15,13 +15,15 @@ with open(path.join(here, 'README.md'), encoding='utf-8') as f:
 setup(
     name='iptables_stats',
 
-    version='0.9.4',
+    version='0.9.5',
 
-    description='Publish IP statistics periodically',
+    description='Periodically gathers and publishes statistics about iptables',
 
     author='vbs',
 
     author_email='vbs@springrts.de',
+
+    url='https://github.com/verybadsoldier/iptables_stats',
 
     keywords='mqtt iptables ipset',
 
