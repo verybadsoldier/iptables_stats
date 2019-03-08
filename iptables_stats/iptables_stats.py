@@ -54,7 +54,7 @@ class JobFactory:
 
 
 def main():
-    logging.basicConfig(level=logging.INFO)
+    logging.basicConfig(level=logging.DEBUG)
 
     # shutup schedule
     logger = logging.getLogger('schedule')
