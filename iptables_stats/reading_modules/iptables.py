@@ -38,6 +38,7 @@ def get_rule_counters(chain_name, regex):
         rule_no = _find_rule_idx(chain_name, regex)
 
         table = iptc.Table(iptc.Table.FILTER)
+        table.refresh()  # data won't update at runtime otherwise
         if table.is_chain(chain_name):
             chain = iptc.Chain(table, chain_name)
             rules = list(chain.rules)
@@ -55,8 +56,10 @@ def get_rule_counters(chain_name, regex):
 def get_rule_count(chain_name, offset=0):
     _logger.debug(f"Querying rule count in chain '{chain_name}' using offset {offset}")
     table = iptc.Table(iptc.Table.FILTER)
+    table.refresh()  # data won't update at runtime otherwise
     if table.is_chain(chain_name):
         chain = iptc.Chain(table, chain_name)
+        _logger.info("asdfs")
         rule_count = len(chain.rules) + offset
     else:
         _logger.debug(f"Chain '{chain_name}' does not exist")
