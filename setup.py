@@ -15,7 +15,7 @@ with open(path.join(here, 'README.md'), encoding='utf-8') as f:
 setup(
     name='iptables_stats',
 
-    version='0.9.11',
+    version='0.9.12',
 
     description='Periodically gathers and publishes statistics about iptables',
     long_description=long_description,
@@ -33,7 +33,7 @@ setup(
 
     python_requires='>=3.6',
 
-    install_requires=['ipsetpy', 'paho-mqtt', 'python-iptables', 'pyptables', 'schedule', 'pyyaml'],
+    install_requires=['ipsetpy==0.0.1a3', 'paho-mqtt==1.*', 'python-iptables==1.*', 'pyptables==1.*', 'schedule==1.*', 'pyyaml==6.*'],
 
     entry_points={
         'console_scripts': [
