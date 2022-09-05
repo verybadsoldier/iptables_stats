@@ -15,7 +15,7 @@ with open(path.join(here, 'README.md'), encoding='utf-8') as f:
 setup(
     name='iptables_stats',
 
-    version='0.9.12',
+    version='0.9.13',
 
     description='Periodically gathers and publishes statistics about iptables',
     long_description=long_description,
