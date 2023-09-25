@@ -5,13 +5,11 @@ LABEL description="Gather statistics from iptables and ipset and publish via MQT
 LABEL vcs-url="https://github.com/verybadsoldier/docker-iptables_stats"
 
 
-RUN apk add build-base && \
-    apk add libc6-compat && \
-    apk add iptables && \
-    apk add iptables-dev && \
-    apk add ipset && \
-    pip install iptables_stats==0.9.13 && \
-    apk del build-base && \
+COPY . /app
+
+RUN apk add --virtual mypackages build-base libc6-compat iptables iptables-dev ipset bash && \
+    cd /app && pip install . && rm -rf /app && \
+    apk del mypackages && \
     rm -rf /var/cache/apk/*
 
 # some vars to also support loading correct dynamic libraries
