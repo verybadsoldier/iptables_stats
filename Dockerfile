@@ -7,9 +7,10 @@ LABEL vcs-url="https://github.com/verybadsoldier/docker-iptables_stats"
 
 COPY . /app
 
-RUN apk add --virtual mypackages build-base libc6-compat iptables iptables-dev ipset bash && \
+
+RUN apk add build-base libc6-compat iptables iptables-dev ipset && \
     cd /app && pip install . && rm -rf /app && \
-    apk del mypackages && \
+    apk del build-base && \
     rm -rf /var/cache/apk/*
 
 # some vars to also support loading correct dynamic libraries
