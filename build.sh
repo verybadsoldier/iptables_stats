@@ -1,3 +1,4 @@
-#!/bin/sh
-
-python setup.py bdist_wheel
+set -ex
+USERNAME=verybadsoldier
+IMAGE=iptables_stats
+docker build -t $USERNAME/$IMAGE:latest .

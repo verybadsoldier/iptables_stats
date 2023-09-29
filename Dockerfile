@@ -8,7 +8,7 @@ LABEL vcs-url="https://github.com/verybadsoldier/docker-iptables_stats"
 COPY . /app
 
 
-RUN apk add iptables ipset && \
+RUN apk add iptables ipset git && \
     apk add --virtual mypkg iptables-dev build-base libc6-compat && \
     cd /app && pip install . && rm -rf /app && \
     apk del mypkg && \
